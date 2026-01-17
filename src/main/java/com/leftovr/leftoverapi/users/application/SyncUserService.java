@@ -17,7 +17,7 @@ public class SyncUserService {
         this.userRepository = userRepository;
     }
 
-    public User syncUser(String id, SyncUserRequest syncUserRequest) {
+    public SyncUserResult syncUser(String id, SyncUserRequest syncUserRequest) {
         User user = userRepository.findById(id).orElse(null);
         validateInputParameters(syncUserRequest);
 
@@ -26,11 +26,11 @@ public class SyncUserService {
             newUser.setId(id);
             newUser.setEmail(syncUserRequest.email());
             newUser.setUsername(syncUserRequest.username());
-            return userRepository.save(newUser);
+            return new SyncUserResult(userRepository.save(newUser), true);
         } else {
             user.setEmail(syncUserRequest.email());
             user.setUsername(syncUserRequest.username());
-            return user;
+            return new SyncUserResult(userRepository.save(user), false);
         }
     }
 

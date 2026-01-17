@@ -1,6 +1,7 @@
 package com.leftovr.leftoverapi.users.api;
 
 import com.leftovr.leftoverapi.users.api.controller.UserController;
+import com.leftovr.leftoverapi.users.application.SyncUserResult;
 import com.leftovr.leftoverapi.users.application.SyncUserService;
 import com.leftovr.leftoverapi.users.testSupport.users.application.requests.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -25,7 +27,7 @@ public class UserControllerTest {
     SyncUserService service;
 
     @Test
-    void returns200Ok() throws Exception {
+    void syncUser_newUser_returns201Created() throws Exception {
         // Arrange
         var userId = "test-user-id";
         var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
@@ -37,13 +39,43 @@ public class UserControllerTest {
                 """.formatted(syncUserRequest.email(), syncUserRequest.username());
 
         var user = UserTestBuilder.aDefault().build();
-        when(service.syncUser(userId, syncUserRequest)).thenReturn(user);
+        var result = new SyncUserResult(user, true);
+        when(service.syncUser(userId, syncUserRequest)).thenReturn(result);
 
         // Act & Assert
         mockMvc.perform(post("/api/users/{userId}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(user.getId()))
+                .andExpect(jsonPath("$.email").value(user.getEmail()))
+                .andExpect(jsonPath("$.username").value(user.getUsername()));
+    }
+
+    @Test
+    void syncUser_existingUser_returns200Ok() throws Exception {
+        // Arrange
+        var userId = "test-user-id";
+        var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
+        var json = """
+                {
+                    "email": "%s",
+                    "username": "%s"
+                }
+                """.formatted(syncUserRequest.email(), syncUserRequest.username());
+
+        var user = UserTestBuilder.aDefault().build();
+        var result = new SyncUserResult(user, false);
+        when(service.syncUser(userId, syncUserRequest)).thenReturn(result);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/users/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(user.getId()))
+                .andExpect(jsonPath("$.email").value(user.getEmail()))
+                .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
 
     @Test
