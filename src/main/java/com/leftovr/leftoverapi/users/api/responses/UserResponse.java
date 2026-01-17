@@ -7,7 +7,8 @@ public record UserResponse(
         String email,
         String username,
         String firstName,
-        String lastName
+        String lastName,
+        boolean isComplete
 ) {
     public static UserResponse fromUser(User user) {
         return new UserResponse(
@@ -15,7 +16,8 @@ public record UserResponse(
                 user.getEmail(),
                 user.getUsername(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                user.isComplete()
         );
     }
 }

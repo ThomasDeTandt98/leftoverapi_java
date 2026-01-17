@@ -1,0 +1,2 @@
+ALTER TABLE users.users
+    ADD COLUMN is_complete BOOLEAN NOT NULL DEFAULT FALSE;

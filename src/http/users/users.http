@@ -6,3 +6,12 @@ Content-Type: application/json
     "email": "test.user@leftovr.be",
     "username": "testuser"
 }
+
+### Complete user profile
+PUT {{baseUrl}}/api/users/{{testUserId}}/complete
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}

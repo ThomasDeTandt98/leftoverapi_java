@@ -8,6 +8,7 @@ public class UserTestBuilder {
     private String username = "testuser";
     private String firstName = "Test";
     private String lastName = "User";
+    private boolean isComplete = false;
 
     public static UserTestBuilder aDefault() {
         return new UserTestBuilder();
@@ -38,6 +39,11 @@ public class UserTestBuilder {
         return this;
     }
 
+    public UserTestBuilder withComplete(boolean isComplete) {
+        this.isComplete = isComplete;
+        return this;
+    }
+
     public User build() {
         var user = new User();
         user.setId(id);
@@ -45,6 +51,7 @@ public class UserTestBuilder {
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setComplete(isComplete);
         return user;
     }
 }
