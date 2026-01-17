@@ -31,7 +31,7 @@ public class SyncUserService {
         } else {
             user.setEmail(syncUserRequest.email());
             user.setUsername(syncUserRequest.username());
-            return new SyncUserResult(user, false);
+            return new SyncUserResult(userRepository.save(user), false);
         }
     }
 
