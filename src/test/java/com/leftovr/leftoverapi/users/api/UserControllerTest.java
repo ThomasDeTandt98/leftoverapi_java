@@ -47,7 +47,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void returns400BadRequest() throws Exception {
+    void syncUser_withInvalidRequest_returns400BadRequest() throws Exception {
         // Arrange
         var userId = "test-user-id";
         var json = """
@@ -56,6 +56,25 @@ public class UserControllerTest {
                     "username": ""
                 }
                 """;
+
+        // Act & Assert
+        mockMvc.perform(post("/api/users/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void syncUser_withTooLongUserId_returns400BadRequest() throws Exception {
+        // Arrange
+        var userId = "a".repeat(101);
+        var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
+        var json = """
+                {
+                    "email": "%s",
+                    "username": "%s"
+                }
+                """.formatted(syncUserRequest.email(), syncUserRequest.username());
 
         // Act & Assert
         mockMvc.perform(post("/api/users/{userId}", userId)

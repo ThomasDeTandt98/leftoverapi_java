@@ -10,8 +10,8 @@ public class UserModuleTest {
 
     @Test
     void moduleDependenciesAreValid() {
-       var modules = ApplicationModules.of(LeftoverapiApplication.class);
+        var modules = ApplicationModules.of(LeftoverapiApplication.class);
 
-         modules.verify();
+        modules.verify();
     }
 }

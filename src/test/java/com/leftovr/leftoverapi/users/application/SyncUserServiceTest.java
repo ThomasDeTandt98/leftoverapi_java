@@ -4,9 +4,11 @@ import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
 import com.leftovr.leftoverapi.users.testSupport.users.application.requests.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +35,30 @@ public class SyncUserServiceTest {
     }
 
     @Test
+    void syncUser_nonExistingUser_throwsExceptionWhenUsernameNotUnique() {
+        // Arrange
+        var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
+        var userId = "new-user-id";
+        when(repo.findById(userId)).thenReturn(Optional.empty());
+        when(repo.existsByUsername(syncUserRequest.username())).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(ResponseStatusException.class, () -> service.syncUser(userId, syncUserRequest));
+    }
+
+    @Test
+    void syncUser_nonExistingUser_throwsExceptionWhenEmailNotUnique() {
+        // Arrange
+        var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
+        var userId = "new-user-id";
+        when(repo.findById(userId)).thenReturn(Optional.empty());
+        when(repo.existsByEmail(syncUserRequest.email())).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(ResponseStatusException.class, () -> service.syncUser(userId, syncUserRequest));
+    }
+
+    @Test
     void syncUser_existingUser_updatesUser() {
         // Arrange
         var syncUserRequest = SyncUserRequestTestBuilder
@@ -54,9 +80,7 @@ public class SyncUserServiceTest {
 
         // Assert
         verify(repo).findById(userId);
-        verify(repo).save(argThat(user ->
-                userId.equals(user.getId()) &&
-                        syncUserRequest.email().equals(user.getEmail()) &&
-                        syncUserRequest.username().equals(user.getUsername())));
+        assert(existingUser.getEmail().equals(syncUserRequest.email()));
+        assert(existingUser.getUsername().equals(syncUserRequest.username()));
     }
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: leftover-api
+    name: leftoverapi
   profiles:
     active: ${SPRING_PROFILE:local}
   jpa:
