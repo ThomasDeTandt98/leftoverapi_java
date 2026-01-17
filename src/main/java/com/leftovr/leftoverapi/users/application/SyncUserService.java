@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserService {
+public class SyncUserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public SyncUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
