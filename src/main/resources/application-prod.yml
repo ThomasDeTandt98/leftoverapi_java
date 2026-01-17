@@ -8,3 +8,5 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+    default-schema: users
+    locations: classpath:db/migration/users

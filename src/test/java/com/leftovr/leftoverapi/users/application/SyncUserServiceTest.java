@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -35,7 +36,7 @@ public class SyncUserServiceTest {
     }
 
     @Test
-    void syncUser_nonExistingUser_throwsExceptionWhenUsernameNotUnique() {
+    void syncUser_throwsExceptionWhenUsernameNotUnique() {
         // Arrange
         var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
         var userId = "new-user-id";
@@ -47,7 +48,7 @@ public class SyncUserServiceTest {
     }
 
     @Test
-    void syncUser_nonExistingUser_throwsExceptionWhenEmailNotUnique() {
+    void syncUser_throwsExceptionWhenEmailNotUnique() {
         // Arrange
         var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
         var userId = "new-user-id";
@@ -80,7 +81,7 @@ public class SyncUserServiceTest {
 
         // Assert
         verify(repo).findById(userId);
-        assert(existingUser.getEmail().equals(syncUserRequest.email()));
-        assert(existingUser.getUsername().equals(syncUserRequest.username()));
+        assertEquals(existingUser.getEmail(), syncUserRequest.email());
+        assertEquals(existingUser.getUsername(), syncUserRequest.username());
     }
 }

@@ -9,5 +9,4 @@ public class LeftoverapiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LeftoverapiApplication.class, args);
 	}
-
 }

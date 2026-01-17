@@ -42,4 +42,30 @@ public class UserRepositoryTest {
         assertThat(retrievedUser.getFirstName()).isEqualTo(savedUser.getFirstName());
         assertThat(retrievedUser.getLastName()).isEqualTo(savedUser.getLastName());
     }
+
+    @Test
+    void existsByEmail_shouldReturnTrueWhenEmailExists() {
+        // Arrange
+        var user = UserTestBuilder.aDefault().withEmail("test.test@leftover.com").build();
+        userRepository.save(user);
+
+        // Act
+        var exists = userRepository.existsByEmail("test.test@leftover.com");
+
+        // Assert
+        assertThat(exists).isTrue();
+    }
+
+    @Test
+    void existsByUsername_shouldReturnTrueWhenUsernameExists() {
+        // Arrange
+        var user = UserTestBuilder.aDefault().withUsername("testuser").build();
+        userRepository.save(user);
+
+        // Act
+        var exists = userRepository.existsByUsername("testuser");
+
+        // Assert
+        assertThat(exists).isTrue();
+    }
 }

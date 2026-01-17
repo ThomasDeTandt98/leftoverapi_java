@@ -19,10 +19,9 @@ public class SyncUserService {
 
     public User syncUser(String id, SyncUserRequest syncUserRequest) {
         User user = userRepository.findById(id).orElse(null);
+        validateInputParameters(syncUserRequest);
 
         if (user == null) {
-            validateInputParameters(syncUserRequest);
-
             User newUser = new User();
             newUser.setId(id);
             newUser.setEmail(syncUserRequest.email());
@@ -45,14 +44,14 @@ public class SyncUserService {
     private void validateEmailUniqueness(String email) {
         boolean emailExists = userRepository.existsByEmail(email);
         if (emailExists) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already in use: " + email);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or username already in user");
         }
     }
 
     private void validateUsernameUniqueness(String username) {
         boolean usernameExists = userRepository.existsByUsername(username);
         if (usernameExists) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already in use: " + username);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or username already in user");
         }
     }
 }

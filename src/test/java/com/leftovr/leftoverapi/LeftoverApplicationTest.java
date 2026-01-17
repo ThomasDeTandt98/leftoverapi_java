@@ -3,7 +3,7 @@ package com.leftovr.leftoverapi;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest()
+@SpringBootTest
 public class LeftoverApplicationTest {
 
     @Test
