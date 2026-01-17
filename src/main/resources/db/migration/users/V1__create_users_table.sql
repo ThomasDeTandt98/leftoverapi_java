@@ -1,0 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS users;
+
+CREATE TABLE users.users
+(
+    id       VARCHAR(255) PRIMARY KEY,
+    email    VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(255) NOT NULL
+)

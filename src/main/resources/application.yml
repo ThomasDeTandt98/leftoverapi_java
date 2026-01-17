@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: leftoverapi
+  profiles:
+    active: ${SPRING_PROFILE:local}
+  jpa:
+    open-in-view: false
+    show-sql: false

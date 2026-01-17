@@ -1,0 +1,57 @@
+package com.leftovr.leftoverapi.users.application;
+
+import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
+import com.leftovr.leftoverapi.users.domain.User;
+import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
+@Transactional
+public class SyncUserService {
+    private final UserRepository userRepository;
+
+    public SyncUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public SyncUserResult syncUser(String id, SyncUserRequest syncUserRequest) {
+        User user = userRepository.findById(id).orElse(null);
+        validateInputParameters(syncUserRequest);
+
+        if (user == null) {
+            User newUser = new User();
+            newUser.setId(id);
+            newUser.setEmail(syncUserRequest.email());
+            newUser.setUsername(syncUserRequest.username());
+            return new SyncUserResult(userRepository.save(newUser), true);
+        } else {
+            user.setEmail(syncUserRequest.email());
+            user.setUsername(syncUserRequest.username());
+            return new SyncUserResult(userRepository.save(user), false);
+        }
+    }
+
+    private void validateInputParameters(SyncUserRequest syncUserRequest) {
+        String email = syncUserRequest.email();
+        String username = syncUserRequest.username();
+        validateEmailUniqueness(email);
+        validateUsernameUniqueness(username);
+    }
+
+    private void validateEmailUniqueness(String email) {
+        boolean emailExists = userRepository.existsByEmail(email);
+        if (emailExists) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or username already in user");
+        }
+    }
+
+    private void validateUsernameUniqueness(String username) {
+        boolean usernameExists = userRepository.existsByUsername(username);
+        if (usernameExists) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or username already in user");
+        }
+    }
+}

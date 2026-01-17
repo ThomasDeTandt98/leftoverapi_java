@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/leftoverdb
+    username: leftover
+    password: leftover123
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: users
+  flyway:
+    enabled: true
+    default-schema: users
+    schemas: public,users
+    locations: classpath:db/migration/users
+    create-schemas: true
+    validate-on-migrate: true
+
+logging:
+  level:
+    org.flywaydb: DEBUG
+    org.springframework.boot.autoconfigure.flyway: DEBUG
