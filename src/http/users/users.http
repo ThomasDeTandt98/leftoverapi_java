@@ -1,0 +1,8 @@
+### Sync user data (create user if does not exist)
+POST {{baseUrl}}/api/users/{{testUserId}}
+Content-Type: application/json
+
+{
+    "email": "test.user@leftovr.be",
+    "username": "testuser"
+}

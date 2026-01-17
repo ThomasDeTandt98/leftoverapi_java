@@ -1,0 +1,3 @@
+ALTER TABLE users.users
+    ADD COLUMN firstName VARCHAR(255) NULL,
+    ADD COLUMN lastName VARCHAR(255) NULL;
