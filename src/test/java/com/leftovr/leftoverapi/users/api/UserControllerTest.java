@@ -191,4 +191,22 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(jsonPath("$.lastName").value("Doe"));
     }
+
+    @Test
+    void completeUserProfile_idValidationFails_returns400BadRequest() throws Exception {
+        // Arrange
+        var userId = "a".repeat(101);
+        var json = """
+                {
+                    "firstName": "John",
+                    "lastName": "Doe"
+                }
+                """;
+
+        // Act & Assert
+        mockMvc.perform(put("/api/users/{userId}/complete", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest());
+    }
 }

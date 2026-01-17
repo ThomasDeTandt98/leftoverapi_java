@@ -39,7 +39,7 @@ public class UserTestBuilder {
         return this;
     }
 
-    public UserTestBuilder withIsComplete(boolean isComplete) {
+    public UserTestBuilder withComplete(boolean isComplete) {
         this.isComplete = isComplete;
         return this;
     }

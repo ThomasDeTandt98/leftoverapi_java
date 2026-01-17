@@ -9,7 +9,7 @@ import com.leftovr.leftoverapi.users.application.services.CompleteUserProfileSer
 import com.leftovr.leftoverapi.users.application.services.SyncUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping("/{id}")
     public ResponseEntity<UserResponse> syncUser(
-            @PathVariable @NotBlank @Length(max = 100) String id,
+            @PathVariable @NotBlank @Size(max = 100) String id,
             @Valid @RequestBody SyncUserRequest syncUserRequest) {
         SyncUserResult result = syncUserService.syncUser(id, syncUserRequest);
         UserResponse response = UserResponse.fromUser(result.user());
@@ -39,7 +39,7 @@ public class UserController {
 
     @PutMapping("/{id}/complete")
     public ResponseEntity<UserResponse> completeUserProfile(
-            @PathVariable @NotBlank @Length(max = 100) String id,
+            @PathVariable @NotBlank @Size(max = 100) String id,
             @Valid @RequestBody CompleteUserProfileRequest request) {
         CompleteUserProfileResult result = completeUserProfileService.completeUserProfile(id, request);
         UserResponse response = UserResponse.fromUser(result.user());
