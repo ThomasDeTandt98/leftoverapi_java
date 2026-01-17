@@ -35,7 +35,7 @@ public class CompleteUserProfileServiceTest {
     }
 
     @Test
-    void completeUserProfile_shouldUpdateUserProfileW_whenUserExists() {
+    void completeUserProfile_shouldUpdateUserProfile_whenUserExists() {
         // Arrange
         String firstName = "Jane";
         User user = UserTestBuilder.aDefault().build();
@@ -55,5 +55,6 @@ public class CompleteUserProfileServiceTest {
         assertTrue(result.updated());
         assertEquals(user.getFirstName(), request.firstName());
         assertEquals(user.getLastName(), request.lastName());
+        assertTrue(user.isComplete());
     }
 }

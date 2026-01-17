@@ -24,13 +24,14 @@ public class CompleteUserProfileService {
     public CompleteUserProfileResult completeUserProfile(String id, CompleteUserProfileRequest request) {
         Optional<User> optionalUser = userRepository.findById(id);
 
-        if(optionalUser.isEmpty()) {
+        if (optionalUser.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
         }
 
         User user = optionalUser.get();
         user.setFirstName(request.firstName().trim());
         user.setLastName(request.lastName().trim());
+        user.setComplete(true);
 
         return new CompleteUserProfileResult(user, true);
     }
