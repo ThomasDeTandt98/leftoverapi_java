@@ -1,4 +1,4 @@
-package com.leftovr.leftoverapi.users.testSupport.users.application.requests;
+package com.leftovr.leftoverapi.users.testSupport.users.api.request;
 
 import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
 

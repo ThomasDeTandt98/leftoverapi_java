@@ -1,17 +1,15 @@
 package com.leftovr.leftoverapi.users.application;
 
+import com.leftovr.leftoverapi.users.application.services.SyncUserService;
 import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
-import com.leftovr.leftoverapi.users.testSupport.users.application.requests.SyncUserRequestTestBuilder;
+import com.leftovr.leftoverapi.users.testSupport.users.api.request.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -77,7 +75,7 @@ public class SyncUserServiceTest {
                 .withUsername("old.username")
                 .build();
 
-        when(repo.findById(userId)).thenReturn(Optional.of(existingUser));
+            when(repo.findById(userId)).thenReturn(Optional.of(existingUser));
 
         // Act
         var result = service.syncUser(userId, syncUserRequest);
