@@ -9,6 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -24,9 +26,10 @@ public class SyncUserServiceTest {
         when(repo.findById(userId)).thenReturn(Optional.empty());
 
         // Act
-        service.syncUser(userId, syncUserRequest);
+        var result = service.syncUser(userId, syncUserRequest);
 
         // Assert
+        assertTrue(result.created());
         verify(repo).findById(userId);
         verify(repo).save(argThat(user ->
                 userId.equals(user.getId()) &&
@@ -76,9 +79,10 @@ public class SyncUserServiceTest {
         when(repo.findById(userId)).thenReturn(Optional.of(existingUser));
 
         // Act
-        service.syncUser(userId, syncUserRequest);
+        var result = service.syncUser(userId, syncUserRequest);
 
         // Assert
+        assertFalse(result.created());
         verify(repo).findById(userId);
         assert(existingUser.getEmail().equals(syncUserRequest.email()));
         assert(existingUser.getUsername().equals(syncUserRequest.username()));
