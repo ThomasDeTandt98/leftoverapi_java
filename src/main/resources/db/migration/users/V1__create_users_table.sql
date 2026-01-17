@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS users;
+
 CREATE TABLE users.users
 (
     id       VARCHAR(255) PRIMARY KEY,

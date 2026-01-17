@@ -9,7 +9,7 @@ public class UserTestBuilder {
     private String firstName = "Test";
     private String lastName = "User";
 
-    public static UserTestBuilder aUser() {
+    public static UserTestBuilder aDefault() {
         return new UserTestBuilder();
     }
 

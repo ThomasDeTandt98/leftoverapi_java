@@ -42,7 +42,7 @@ public class SyncUserServiceTest {
                 .build();
         var userId = "existing-user-id";
         var existingUser = UserTestBuilder
-                .aUser()
+                .aDefault()
                 .withEmail("old.email@leftovr.com")
                 .withUsername("old.username")
                 .build();
