@@ -1,4 +1,4 @@
-package com.leftovr.leftoverapi.users.application;
+package com.leftovr.leftoverapi.users.application.users;
 
 
 import com.leftovr.leftoverapi.users.application.results.users.CompleteUserProfileResult;
