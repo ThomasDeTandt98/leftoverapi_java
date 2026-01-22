@@ -33,6 +33,9 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 	runtimeOnly("org.postgresql:postgresql")
 
@@ -48,6 +51,7 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.mockito:mockito-core:5.17.0")
+	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("net.bytebuddy:byte-buddy-agent:1.14.17")
 
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

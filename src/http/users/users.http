@@ -1,5 +1,6 @@
 ### Sync user data (create user if does not exist)
-POST {{baseUrl}}/api/users/{{testUserId}}
+POST {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -8,8 +9,9 @@ Content-Type: application/json
 }
 
 ### Complete user profile
-PUT {{baseUrl}}/api/users/{{testUserId}}/complete
+PUT {{baseUrl}}/api/users/complete
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "firstName": "John",

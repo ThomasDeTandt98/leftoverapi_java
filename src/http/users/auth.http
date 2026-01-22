@@ -1,0 +1,14 @@
+### Get a valid token
+POST https://{{auth0-domain}}/oauth/token
+Content-Type: application/json
+
+{
+  "grant_type": "client_credentials",
+  "client_id": "{{auth0-client-id}}",
+  "client_secret": "{{auth0-client-secret}}",
+  "audience": "{{auth0-audience}}"
+}
+
+> {%
+    client.global.set("token", response.body.access_token);
+%}
