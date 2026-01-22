@@ -6,11 +6,13 @@ import com.leftovr.leftoverapi.users.application.results.CompleteUserProfileResu
 import com.leftovr.leftoverapi.users.application.results.SyncUserResult;
 import com.leftovr.leftoverapi.users.application.services.CompleteUserProfileService;
 import com.leftovr.leftoverapi.users.application.services.SyncUserService;
+import com.leftovr.leftoverapi.users.testSupport.users.TestSecurityConfig;
 import com.leftovr.leftoverapi.users.testSupport.users.api.request.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -19,12 +21,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest(controllers = UserController.class)
+@Import(TestSecurityConfig.class)
 public class UserControllerTest {
 
     @Autowired
@@ -32,13 +36,14 @@ public class UserControllerTest {
 
     @MockitoBean
     SyncUserService syncUserService;
+
     @MockitoBean
     CompleteUserProfileService completeUserProfileService;
 
     @Test
     void syncUser_newUser_returns201Created() throws Exception {
         // Arrange
-        var userId = "test-user-id";
+        var userId = "auth0|1234567890";
         var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
         var json = """
                 {
@@ -52,7 +57,8 @@ public class UserControllerTest {
         when(syncUserService.syncUser(userId, syncUserRequest)).thenReturn(result);
 
         // Act & Assert
-        mockMvc.perform(post("/api/users/{userId}", userId)
+        mockMvc.perform(post("/api/users")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
@@ -78,7 +84,8 @@ public class UserControllerTest {
         when(syncUserService.syncUser(userId, syncUserRequest)).thenReturn(result);
 
         // Act & Assert
-        mockMvc.perform(post("/api/users/{userId}", userId)
+        mockMvc.perform(post("/api/users")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -99,26 +106,29 @@ public class UserControllerTest {
                 """;
 
         // Act & Assert
-        mockMvc.perform(post("/api/users/{userId}", userId)
+        mockMvc.perform(post("/api/users")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void syncUser_withTooLongUserId_returns400BadRequest() throws Exception {
+    void syncUser_whenValidationFails_returns400BadRequest() throws Exception {
         // Arrange
-        var userId = "a".repeat(101);
+        var userId = "test-user-id";
+        String username = "A".repeat(300); // Exceeds max length of 250
         var syncUserRequest = SyncUserRequestTestBuilder.aDefault().build();
         var json = """
                 {
                     "email": "%s",
                     "username": "%s"
                 }
-                """.formatted(syncUserRequest.email(), syncUserRequest.username());
+                """.formatted(syncUserRequest.email(), username);
 
         // Act & Assert
-        mockMvc.perform(post("/api/users/{userId}", userId)
+        mockMvc.perform(post("/api/users")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
@@ -139,7 +149,8 @@ public class UserControllerTest {
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
 
         // Act & Assert
-        mockMvc.perform(put("/api/users/{userId}/complete", userId)
+        mockMvc.perform(put("/api/users/complete")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
@@ -157,7 +168,8 @@ public class UserControllerTest {
                 """;
 
         // Act & Assert
-        mockMvc.perform(put("/api/users/{userId}/complete", userId)
+        mockMvc.perform(put("/api/users/complete")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
@@ -183,7 +195,8 @@ public class UserControllerTest {
                 .thenReturn(new CompleteUserProfileResult(user, true));
 
         // Act & Assert
-        mockMvc.perform(put("/api/users/{userId}/complete", userId)
+        mockMvc.perform(put("/api/users/complete")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -195,16 +208,18 @@ public class UserControllerTest {
     @Test
     void completeUserProfile_idValidationFails_returns400BadRequest() throws Exception {
         // Arrange
-        var userId = "a".repeat(101);
+        String userId = "test-user-id";
+        String tooLongFirstName = "A".repeat(256);
         var json = """
                 {
-                    "firstName": "John",
+                    "firstName": "%s",
                     "lastName": "Doe"
                 }
-                """;
+                """.formatted(tooLongFirstName);
 
         // Act & Assert
-        mockMvc.perform(put("/api/users/{userId}/complete", userId)
+        mockMvc.perform(put("/api/users/complete")
+                        .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());

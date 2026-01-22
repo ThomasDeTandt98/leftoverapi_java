@@ -18,6 +18,13 @@ spring:
     create-schemas: true
     validate-on-migrate: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          audience: https://api.leftovr.app/java/
+          issuer-uri: https://dev-qmja4n0lo25ybcv8.us.auth0.com/
+
 logging:
   level:
     org.flywaydb: DEBUG
