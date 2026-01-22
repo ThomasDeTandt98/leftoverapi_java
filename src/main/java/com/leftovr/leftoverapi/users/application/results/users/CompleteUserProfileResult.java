@@ -1,4 +1,4 @@
-package com.leftovr.leftoverapi.users.application.results;
+package com.leftovr.leftoverapi.users.application.results.users;
 
 import com.leftovr.leftoverapi.users.domain.User;
 

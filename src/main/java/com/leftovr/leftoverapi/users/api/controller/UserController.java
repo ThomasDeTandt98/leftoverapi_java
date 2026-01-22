@@ -2,11 +2,11 @@ package com.leftovr.leftoverapi.users.api.controller;
 
 import com.leftovr.leftoverapi.users.api.requests.CompleteUserProfileRequest;
 import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
-import com.leftovr.leftoverapi.users.api.responses.UserResponse;
-import com.leftovr.leftoverapi.users.application.results.CompleteUserProfileResult;
-import com.leftovr.leftoverapi.users.application.results.SyncUserResult;
-import com.leftovr.leftoverapi.users.application.services.CompleteUserProfileService;
-import com.leftovr.leftoverapi.users.application.services.SyncUserService;
+import com.leftovr.leftoverapi.users.api.responses.users.UserResponse;
+import com.leftovr.leftoverapi.users.application.results.users.CompleteUserProfileResult;
+import com.leftovr.leftoverapi.users.application.results.users.SyncUserResult;
+import com.leftovr.leftoverapi.users.application.services.users.CompleteUserProfileService;
+import com.leftovr.leftoverapi.users.application.services.users.SyncUserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

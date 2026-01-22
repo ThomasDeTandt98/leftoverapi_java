@@ -1,0 +1,4 @@
+### Get dietary preferences lookup
+GET {{baseUrl}}/api/users/dietary-preferences/lookup
+Authorization: Bearer {{token}}
+Content-Type: application/json

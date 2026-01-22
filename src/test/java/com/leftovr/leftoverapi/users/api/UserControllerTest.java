@@ -2,10 +2,10 @@ package com.leftovr.leftoverapi.users.api;
 
 import com.leftovr.leftoverapi.users.api.controller.UserController;
 import com.leftovr.leftoverapi.users.api.requests.CompleteUserProfileRequest;
-import com.leftovr.leftoverapi.users.application.results.CompleteUserProfileResult;
-import com.leftovr.leftoverapi.users.application.results.SyncUserResult;
-import com.leftovr.leftoverapi.users.application.services.CompleteUserProfileService;
-import com.leftovr.leftoverapi.users.application.services.SyncUserService;
+import com.leftovr.leftoverapi.users.application.results.users.CompleteUserProfileResult;
+import com.leftovr.leftoverapi.users.application.results.users.SyncUserResult;
+import com.leftovr.leftoverapi.users.application.services.users.CompleteUserProfileService;
+import com.leftovr.leftoverapi.users.application.services.users.SyncUserService;
 import com.leftovr.leftoverapi.users.testSupport.users.TestSecurityConfig;
 import com.leftovr.leftoverapi.users.testSupport.users.api.request.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
