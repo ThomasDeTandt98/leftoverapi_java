@@ -1,7 +1,7 @@
-package com.leftovr.leftoverapi.users.application.services;
+package com.leftovr.leftoverapi.users.application.services.users;
 
-import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
-import com.leftovr.leftoverapi.users.application.results.SyncUserResult;
+import com.leftovr.leftoverapi.users.api.requests.users.SyncUserRequest;
+import com.leftovr.leftoverapi.users.application.results.users.SyncUserResult;
 import com.leftovr.leftoverapi.users.domain.User;
 import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
 import org.springframework.http.HttpStatus;

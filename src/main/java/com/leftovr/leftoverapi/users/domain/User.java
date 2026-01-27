@@ -1,13 +1,13 @@
 package com.leftovr.leftoverapi.users.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "users")
@@ -35,4 +35,21 @@ public class User {
 
     @Column(name = "is_complete", nullable = false)
     private boolean isComplete;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_dietary_preferences",
+            schema = "users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "dietary_preference_id")
+    )
+    private Set<DietaryPreference> dietaryPreferences = new HashSet<>();
+
+    public Set<DietaryPreference> getDietaryPreferences() {
+        return Set.copyOf(dietaryPreferences);
+    }
+
+    public void addDietaryPreferences(Set<DietaryPreference> dietaryPreferences) {
+        this.dietaryPreferences.addAll(dietaryPreferences);
+    }
 }

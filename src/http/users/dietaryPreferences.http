@@ -1,0 +1,16 @@
+### Get dietary preferences lookup
+GET {{baseUrl}}/api/users/preferences/dietary/lookup
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Add user dietary preferences
+POST {{baseUrl}}/api/users/preferences/dietary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "dietaryPreferenceIds" : [
+    "d8a157f9-7b62-47aa-90fe-598a7d34e966",
+    "30213252-eb09-4e7a-998e-459cd6c84ce4"
+  ]
+}

@@ -1,6 +1,6 @@
 package com.leftovr.leftoverapi.users.testSupport.users.api.request;
 
-import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
+import com.leftovr.leftoverapi.users.api.requests.users.SyncUserRequest;
 
 public class SyncUserRequestTestBuilder {
     private String username = "testuser";

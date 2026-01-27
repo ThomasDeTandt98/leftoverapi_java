@@ -1,6 +1,6 @@
-package com.leftovr.leftoverapi.users.application;
+package com.leftovr.leftoverapi.users.application.users;
 
-import com.leftovr.leftoverapi.users.application.services.SyncUserService;
+import com.leftovr.leftoverapi.users.application.services.users.SyncUserService;
 import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
 import com.leftovr.leftoverapi.users.testSupport.users.api.request.SyncUserRequestTestBuilder;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.UserTestBuilder;
