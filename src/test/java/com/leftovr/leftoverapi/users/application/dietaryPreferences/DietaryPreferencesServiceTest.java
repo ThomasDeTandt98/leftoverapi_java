@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class DietaryPreferencesServiceTest {
@@ -39,9 +39,9 @@ public class DietaryPreferencesServiceTest {
         var result = dietaryPreferencesService.getLookupItems();
 
         // Assert
-        assert (result.size() == 2);
-        assert (result.get(0).name().equals("Vegan"));
-        assert (result.get(1).name().equals("Gluten-Free"));
+        assertEquals(result.size(), preferences.size());
+        assertEquals(result.getFirst().name(), preferences.getFirst().getName());
+        assertEquals(result.getLast().name(), preferences.getLast().getName());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class DietaryPreferencesServiceTest {
         var result = dietaryPreferencesService.getLookupItems();
 
         // Assert
-        assert (result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class DietaryPreferencesServiceTest {
         verify(userRepository, times(1)).findById(userId);
         verify(dietaryPreferencesRepository, times(1)).findById(prefId1);
         verify(dietaryPreferencesRepository, times(1)).findById(prefId2);
-        assert(user.getDietaryPreferences().contains(pref1));
-        assert(user.getDietaryPreferences().contains(pref2));
+        assertTrue(user.getDietaryPreferences().contains(pref1));
+        assertTrue(user.getDietaryPreferences().contains(pref2));
     }
 }

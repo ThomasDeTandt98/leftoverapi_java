@@ -1,4 +1,4 @@
-CREATE TABLE dietary_preferences
+CREATE TABLE users.dietary_preferences
 (
     id        UUID         NOT NULL,
     name      VARCHAR(255) NOT NULL,

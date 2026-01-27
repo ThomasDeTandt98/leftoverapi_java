@@ -11,6 +11,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @Testcontainers
 @DataJpaTest
 @ActiveProfiles("test")
@@ -37,8 +40,8 @@ public class DietaryPreferenceRepositoryTest {
         var activePreferences = dietaryPreferencesRepository.findAllByIsActiveTrue();
 
         // Assert
-        assert(activePreferences.size() == 1);
-        assert(activePreferences.getFirst().getName().equals("Active"));
+        assertEquals(1, activePreferences.size());
+        assertEquals("Active", activePreferences.getFirst().getName());
     }
 
     @Test
@@ -55,6 +58,6 @@ public class DietaryPreferenceRepositoryTest {
         var activePreferences = dietaryPreferencesRepository.findAllByIsActiveTrue();
 
         // Assert
-        assert(activePreferences.isEmpty());
+        assertTrue(activePreferences.isEmpty());
     }
 }

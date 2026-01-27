@@ -3,9 +3,10 @@ package com.leftovr.leftoverapi.users.api;
 import com.leftovr.leftoverapi.users.api.controller.DietaryPreferencesController;
 import com.leftovr.leftoverapi.users.application.results.dietaryPreferences.DietaryPreferencesLookupResult;
 import com.leftovr.leftoverapi.users.application.services.dietaryPreferences.DietaryPreferencesService;
+import com.leftovr.leftoverapi.users.domain.exceptions.SomeDietaryPreferencesNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.UserNotFoundException;
 import com.leftovr.leftoverapi.users.testSupport.users.TestSecurityConfig;
-import com.leftovr.leftoverapi.users.testSupport.users.application.dietaryPeferences.DietaryPreferencesLookupResultTestBuilder;
+import com.leftovr.leftoverapi.users.testSupport.users.application.dietaryPreferences.DietaryPreferencesLookupResultTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -77,7 +78,7 @@ public class DietaryPreferencesControllerTest {
     }
 
     @Test
-    void createDietaryPreferences_userDoesNotExist_returns400BadRequest() throws Exception{
+    void createDietaryPreferences_userDoesNotExist_returns404NotFound() throws Exception{
         // Arrange
         String userId = "auth0|non-existing-user";
         String requestBody = """
@@ -101,18 +102,18 @@ public class DietaryPreferencesControllerTest {
     }
 
     @Test
-    void getDietaryPreferences_dietaryPreferencesDoesNotExist_returns403BadRequest() throws Exception {
+    void addDietaryPreferences_dietaryPreferencesDoesNotExist_returns403BadRequest() throws Exception {
         // Arrange
         String userId = "auth0|1234567890";
 
-        doThrow(new UserNotFoundException(userId))
+        doThrow(new SomeDietaryPreferencesNotFoundException(userId))
                 .when(dietaryPreferencesService)
-                .getLookupItems();
+                .addUserDietaryPreferences(any(), any());
 
         // Act & Assert
-        mockMvc.perform(get("/api/users/dietary-preferences/lookup")
+        mockMvc.perform(post("/api/users/preferences/dietary")
                         .with(jwt().jwt(j -> j.subject(userId)))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 }

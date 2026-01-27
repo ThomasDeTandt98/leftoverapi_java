@@ -4,6 +4,7 @@ import com.leftovr.leftoverapi.users.api.requests.dietaryPreferences.AddUserDiet
 import com.leftovr.leftoverapi.users.api.responses.dietaryPreferences.DietaryPreferencesLookupResponse;
 import com.leftovr.leftoverapi.users.application.results.dietaryPreferences.DietaryPreferencesLookupResult;
 import com.leftovr.leftoverapi.users.application.services.dietaryPreferences.DietaryPreferencesService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,7 +35,7 @@ public class DietaryPreferencesController {
     @PostMapping()
     public ResponseEntity<Void> createUserDietaryPreferences(
             @AuthenticationPrincipal Jwt jwt,
-            @RequestBody AddUserDietaryPreferencesRequest request
+            @RequestBody @Valid AddUserDietaryPreferencesRequest request
     ) {
         String userId = jwt.getSubject();
         dietaryPreferencesService.addUserDietaryPreferences(userId, request.dietaryPreferenceIds());

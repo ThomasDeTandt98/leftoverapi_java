@@ -44,4 +44,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "dietary_preference_id")
     )
     private Set<DietaryPreference> dietaryPreferences = new HashSet<>();
+
+    public Set<DietaryPreference> getDietaryPreferences() {
+        return Set.copyOf(dietaryPreferences);
+    }
+
+    public void addDietaryPreferences(Set<DietaryPreference> dietaryPreferences) {
+        this.dietaryPreferences.addAll(dietaryPreferences);
+    }
 }

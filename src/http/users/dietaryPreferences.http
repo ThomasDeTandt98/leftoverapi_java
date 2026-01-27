@@ -3,7 +3,7 @@ GET {{baseUrl}}/api/users/preferences/dietary/lookup
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-### Add user dietary preferenes
+### Add user dietary preferences
 POST {{baseUrl}}/api/users/preferences/dietary
 Authorization: Bearer {{token}}
 Content-Type: application/json

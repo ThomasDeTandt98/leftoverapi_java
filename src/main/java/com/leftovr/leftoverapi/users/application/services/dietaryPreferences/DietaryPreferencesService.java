@@ -44,6 +44,6 @@ public class DietaryPreferencesService {
                     .orElseThrow(() -> new SomeDietaryPreferencesNotFoundException("Some dietary preferences not found"));
             preferences.add(preference);
         }
-        user.getDietaryPreferences().addAll(preferences);
+        user.addDietaryPreferences(preferences);
     }
 }

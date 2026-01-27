@@ -1,4 +1,4 @@
-package com.leftovr.leftoverapi.users.testSupport.users.application.dietaryPeferences;
+package com.leftovr.leftoverapi.users.testSupport.users.application.dietaryPreferences;
 
 import com.leftovr.leftoverapi.users.application.results.dietaryPreferences.DietaryPreferencesLookupResult;
 

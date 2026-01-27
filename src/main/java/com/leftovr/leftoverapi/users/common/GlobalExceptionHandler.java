@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(SomeDietaryPreferencesNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleSomeDietaryPreferencesNotFoundException(SomeDietaryPreferencesNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
