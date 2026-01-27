@@ -1,7 +1,7 @@
 package com.leftovr.leftoverapi.users.api.controller;
 
-import com.leftovr.leftoverapi.users.api.requests.CompleteUserProfileRequest;
-import com.leftovr.leftoverapi.users.api.requests.SyncUserRequest;
+import com.leftovr.leftoverapi.users.api.requests.users.CompleteUserProfileRequest;
+import com.leftovr.leftoverapi.users.api.requests.users.SyncUserRequest;
 import com.leftovr.leftoverapi.users.api.responses.users.UserResponse;
 import com.leftovr.leftoverapi.users.application.results.users.CompleteUserProfileResult;
 import com.leftovr.leftoverapi.users.application.results.users.SyncUserResult;

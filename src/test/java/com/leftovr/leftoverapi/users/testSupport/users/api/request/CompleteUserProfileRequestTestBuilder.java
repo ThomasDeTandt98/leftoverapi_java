@@ -1,6 +1,6 @@
 package com.leftovr.leftoverapi.users.testSupport.users.api.request;
 
-import com.leftovr.leftoverapi.users.api.requests.CompleteUserProfileRequest;
+import com.leftovr.leftoverapi.users.api.requests.users.CompleteUserProfileRequest;
 
 public class CompleteUserProfileRequestTestBuilder {
     private String firstName = "John";

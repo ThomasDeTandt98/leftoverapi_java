@@ -1,4 +1,4 @@
-package com.leftovr.leftoverapi.users.api.requests;
+package com.leftovr.leftoverapi.users.api.requests.users;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

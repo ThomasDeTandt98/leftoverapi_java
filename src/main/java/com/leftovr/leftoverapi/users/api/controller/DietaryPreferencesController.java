@@ -1,17 +1,18 @@
 package com.leftovr.leftoverapi.users.api.controller;
 
+import com.leftovr.leftoverapi.users.api.requests.dietaryPreferences.AddUserDietaryPreferencesRequest;
 import com.leftovr.leftoverapi.users.api.responses.dietaryPreferences.DietaryPreferencesLookupResponse;
 import com.leftovr.leftoverapi.users.application.results.dietaryPreferences.DietaryPreferencesLookupResult;
 import com.leftovr.leftoverapi.users.application.services.dietaryPreferences.DietaryPreferencesService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/users/dietary-preferences")
+@RequestMapping("api/users/preferences/dietary")
 public class DietaryPreferencesController {
 
     private final DietaryPreferencesService dietaryPreferencesService;
@@ -28,5 +29,15 @@ public class DietaryPreferencesController {
                 .toList();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Void> createUserDietaryPreferences(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody AddUserDietaryPreferencesRequest request
+    ) {
+        String userId = jwt.getSubject();
+        dietaryPreferencesService.addUserDietaryPreferences(userId, request.dietaryPreferenceIds());
+        return ResponseEntity.ok().build();
     }
 }

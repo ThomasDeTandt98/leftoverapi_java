@@ -1,6 +1,6 @@
 package com.leftovr.leftoverapi.users.application.services.users;
 
-import com.leftovr.leftoverapi.users.api.requests.CompleteUserProfileRequest;
+import com.leftovr.leftoverapi.users.api.requests.users.CompleteUserProfileRequest;
 import com.leftovr.leftoverapi.users.application.results.users.CompleteUserProfileResult;
 import com.leftovr.leftoverapi.users.domain.User;
 import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
