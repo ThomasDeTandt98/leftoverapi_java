@@ -49,7 +49,22 @@ public class User {
         return Set.copyOf(dietaryPreferences);
     }
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_restrictions",
+            schema = "users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "restriction_id")
+    )
+    private Set<Restriction> restrictions = new HashSet<>();
+
+    public Set<Restriction> getRestrictions() {return Set.copyOf(restrictions);}
+
     public void addDietaryPreferences(Set<DietaryPreference> dietaryPreferences) {
         this.dietaryPreferences.addAll(dietaryPreferences);
+    }
+
+    public void addRestrictions(Set<Restriction> restrictions) {
+        this.restrictions.addAll(restrictions);
     }
 }

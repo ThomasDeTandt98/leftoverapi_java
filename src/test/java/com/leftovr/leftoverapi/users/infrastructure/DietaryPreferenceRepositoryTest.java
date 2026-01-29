@@ -12,6 +12,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,5 +65,32 @@ public class DietaryPreferenceRepositoryTest {
 
         // Assert
         assertTrue(activePreferences.isEmpty());
+    }
+
+    @Test
+    void findByIdAndIsActiveTrue_shouldReturnActiveDietaryPreferenceWhenExists() {
+        // Arrange
+        DietaryPreference activePreference = DietaryPreferenceTestBuilder.aDefault().withName("Active").build();
+        dietaryPreferencesRepository.save(activePreference);
+
+        // Act
+        Optional<DietaryPreference> foundPreference = dietaryPreferencesRepository.findByIdAndIsActiveTrue(activePreference.getId());
+
+        // Assert
+        assertTrue(foundPreference.isPresent());
+        assertEquals("Active", foundPreference.get().getName());
+    }
+
+    @Test
+    void findByIdAndIsActiveTrue_shouldReturnEmptyOptionalWhenDietaryPreferenceIsInactive() {
+        // Arrange
+        DietaryPreference inactivePreference = DietaryPreferenceTestBuilder.aDefault().withName("Inactive").withActive(false).build();
+        dietaryPreferencesRepository.save(inactivePreference);
+
+        // Act
+        Optional<DietaryPreference> foundPreference = dietaryPreferencesRepository.findByIdAndIsActiveTrue(inactivePreference.getId());
+
+        // Assert
+        assertTrue(foundPreference.isEmpty());
     }
 }

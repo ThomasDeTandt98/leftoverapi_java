@@ -15,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @DataJpaTest
@@ -63,5 +64,32 @@ public class RestrictionsRepositoryTest {
 
         // Assert
         assertEquals(0, result.size());
+    }
+
+    @Test
+    void findByIdAndIsActiveTrue_shouldReturnActiveRestrictionWhenExists() {
+        // Arrange
+        Restriction activeRestriction = RestrictionTestBuilder.aDefault().build();
+        restrictionsRepository.save(activeRestriction);
+
+        // Act
+        var result = restrictionsRepository.findByIdAndIsActiveTrue(activeRestriction.getId());
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(activeRestriction.getId(), result.get().getId());
+    }
+
+    @Test
+    void findByIdAndIsActiveTrue_shouldReturnEmptyWhenRestrictionIsInactive() {
+        // Arrange
+        Restriction inactiveRestriction = RestrictionTestBuilder.aDefault().isActive(false).build();
+        restrictionsRepository.save(inactiveRestriction);
+
+        // Act
+        var result = restrictionsRepository.findByIdAndIsActiveTrue(inactiveRestriction.getId());
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 }

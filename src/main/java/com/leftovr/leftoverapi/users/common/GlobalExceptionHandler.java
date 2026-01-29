@@ -1,6 +1,7 @@
 package com.leftovr.leftoverapi.users.common;
 
 import com.leftovr.leftoverapi.users.domain.exceptions.SomeDietaryPreferencesNotFoundException;
+import com.leftovr.leftoverapi.users.domain.exceptions.SomeRestrictionsNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SomeDietaryPreferencesNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleSomeDietaryPreferencesNotFoundException(SomeDietaryPreferencesNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SomeRestrictionsNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSomeRestrictionsNotFoundException(SomeRestrictionsNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 e.getMessage()

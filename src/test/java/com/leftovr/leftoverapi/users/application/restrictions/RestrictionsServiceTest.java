@@ -4,6 +4,7 @@ import com.leftovr.leftoverapi.users.application.results.restrictions.Restrictio
 import com.leftovr.leftoverapi.users.application.services.restrictions.RestrictionsService;
 import com.leftovr.leftoverapi.users.domain.Restriction;
 import com.leftovr.leftoverapi.users.infrastructure.RestrictionsRepository;
+import com.leftovr.leftoverapi.users.infrastructure.UserRepository;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.RestrictionTestBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,8 @@ import static org.mockito.Mockito.when;
 public class RestrictionsServiceTest {
 
     RestrictionsRepository restrictionsRepository= mock(RestrictionsRepository.class);
-    RestrictionsService restrictionsService = new RestrictionsService(restrictionsRepository);
+    UserRepository userRepository= mock(UserRepository.class);
+    RestrictionsService restrictionsService = new RestrictionsService(restrictionsRepository, userRepository);
 
     @Test
     void getRestrictions_shouldReturnRestrictions() {

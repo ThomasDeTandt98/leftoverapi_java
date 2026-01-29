@@ -40,7 +40,7 @@ public class DietaryPreferencesService {
         HashSet<DietaryPreference> preferences = new HashSet<>();
 
         for (UUID dietaryPreferenceId : dietaryPreferenceIds) {
-            DietaryPreference preference = dietaryPreferencesRepository.findById(dietaryPreferenceId)
+            DietaryPreference preference = dietaryPreferencesRepository.findByIdAndIsActiveTrue(dietaryPreferenceId)
                     .orElseThrow(() -> new SomeDietaryPreferencesNotFoundException("Some dietary preferences not found"));
             preferences.add(preference);
         }
