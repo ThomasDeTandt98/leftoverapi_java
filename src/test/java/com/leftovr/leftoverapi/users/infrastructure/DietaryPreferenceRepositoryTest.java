@@ -2,6 +2,7 @@ package com.leftovr.leftoverapi.users.infrastructure;
 
 import com.leftovr.leftoverapi.users.domain.DietaryPreference;
 import com.leftovr.leftoverapi.users.testSupport.users.domain.DietaryPreferenceTestBuilder;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -26,13 +27,17 @@ public class DietaryPreferenceRepositoryTest {
     @Autowired
     DietaryPreferencesRepository dietaryPreferencesRepository;
 
+    @BeforeEach
+    void setUp() {
+        dietaryPreferencesRepository.deleteAll();
+    }
+
     @Test
     void findAllByIsActiveTrue_shouldReturnOnlyActiveDietaryPreferences() {
         // Arrange
         DietaryPreference activePreference = DietaryPreferenceTestBuilder.aDefault().withName("Active").build();
         DietaryPreference inactivePreference = DietaryPreferenceTestBuilder.aDefault().withName("Inactive").withActive(false).build();
 
-        dietaryPreferencesRepository.deleteAll();
         dietaryPreferencesRepository.save(activePreference);
         dietaryPreferencesRepository.save(inactivePreference);
 
@@ -50,7 +55,6 @@ public class DietaryPreferenceRepositoryTest {
         DietaryPreference inactivePreference1 = DietaryPreferenceTestBuilder.aDefault().withName("Inactive1").withActive(false).build();
         DietaryPreference inactivePreference2 = DietaryPreferenceTestBuilder.aDefault().withName("Inactive2").withActive(false).build();
 
-        dietaryPreferencesRepository.deleteAll();
         dietaryPreferencesRepository.save(inactivePreference1);
         dietaryPreferencesRepository.save(inactivePreference2);
 
