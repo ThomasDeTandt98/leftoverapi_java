@@ -102,11 +102,11 @@ public class DietaryPreferencesControllerTest {
     }
 
     @Test
-    void addDietaryPreferences_dietaryPreferencesDoesNotExist_returns403BadRequest() throws Exception {
+    void addDietaryPreferences_dietaryPreferencesDoesNotExist_returns400BadRequest() throws Exception {
         // Arrange
         String userId = "auth0|1234567890";
 
-        doThrow(new SomeDietaryPreferencesNotFoundException(userId))
+        doThrow(new SomeDietaryPreferencesNotFoundException("Some dietary preferences not found"))
                 .when(dietaryPreferencesService)
                 .addUserDietaryPreferences(any(), any());
 

@@ -1,0 +1,16 @@
+### Get ristrictions lookup
+GET {{baseUrl}}/api/users/preferences/restrictions/lookup
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Add restrictions to user
+POST {{baseUrl}}/api/users/preferences/restrictions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "restrictionIds": [
+    "b2c1d9e8-f7a6-4b5c-4d3e-2f1a9b8c7d6e",
+    "c3d2e1f9-a8b7-4c6d-5e4f-3a2b1c9d8e7f"
+  ]
+}

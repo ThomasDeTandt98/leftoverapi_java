@@ -80,16 +80,36 @@ public class DietaryPreferencesServiceTest {
         Set<UUID> dietaryPreferenceIds = Set.of(UUID.randomUUID());
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(dietaryPreferencesRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+        when(dietaryPreferencesRepository.findByIdAndIsActiveTrue(any(UUID.class))).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(SomeDietaryPreferencesNotFoundException.class, () ->
                 dietaryPreferencesService.addUserDietaryPreferences(userId, dietaryPreferenceIds));
 
         verify(userRepository, times(1)).findById(userId);
-        verify(dietaryPreferencesRepository, times(dietaryPreferenceIds.size())).findById(any(UUID.class));
+        verify(dietaryPreferencesRepository, times(dietaryPreferenceIds.size())).findByIdAndIsActiveTrue(any(UUID.class));
         verifyNoMoreInteractions(userRepository);
         verifyNoMoreInteractions(dietaryPreferencesRepository);
+    }
+
+    @Test
+    void addUserDietaryPreferences_shouldThrowError_whenDietaryPreferenceIsInactive() {
+        // Arrange
+        String userId = "existing-user-id";
+        User user = UserTestBuilder.aDefault().withId(userId).build();
+        UUID prefId = UUID.randomUUID();
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(dietaryPreferencesRepository.findByIdAndIsActiveTrue(prefId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(SomeDietaryPreferencesNotFoundException.class, () ->
+                dietaryPreferencesService.addUserDietaryPreferences(userId, Set.of(prefId)));
+
+        verify(userRepository, times(1)).findById(userId);
+        verify(dietaryPreferencesRepository, times(1)).findByIdAndIsActiveTrue(prefId);
+        verifyNoMoreInteractions(userRepository);
+
     }
 
     @Test
@@ -104,16 +124,16 @@ public class DietaryPreferencesServiceTest {
         DietaryPreference pref2 = DietaryPreferenceTestBuilder.aDefault().withId(prefId2).withName("Gluten-Free").build();
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(dietaryPreferencesRepository.findById(prefId1)).thenReturn(Optional.of(pref1));
-        when(dietaryPreferencesRepository.findById(prefId2)).thenReturn(Optional.of(pref2));
+        when(dietaryPreferencesRepository.findByIdAndIsActiveTrue(prefId1)).thenReturn(Optional.of(pref1));
+        when(dietaryPreferencesRepository.findByIdAndIsActiveTrue(prefId2)).thenReturn(Optional.of(pref2));
 
         // Act
         dietaryPreferencesService.addUserDietaryPreferences(userId, Set.of(prefId1, prefId2));
 
         // Assert
         verify(userRepository, times(1)).findById(userId);
-        verify(dietaryPreferencesRepository, times(1)).findById(prefId1);
-        verify(dietaryPreferencesRepository, times(1)).findById(prefId2);
+        verify(dietaryPreferencesRepository, times(1)).findByIdAndIsActiveTrue(prefId1);
+        verify(dietaryPreferencesRepository, times(1)).findByIdAndIsActiveTrue(prefId2);
         assertTrue(user.getDietaryPreferences().contains(pref1));
         assertTrue(user.getDietaryPreferences().contains(pref2));
     }
