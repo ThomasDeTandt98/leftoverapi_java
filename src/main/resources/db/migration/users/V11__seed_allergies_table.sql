@@ -1,0 +1,8 @@
+INSERT INTO users.allergies (id, name, is_active)
+VALUES
+    ('B023B4B3-13D4-4537-8CF0-4D5E2B7048F1', 'Gluten', true),
+    ('7C5DB4C2-1EEF-4984-A67B-3F68E6765AE5', 'Dairy', true),
+    ('98D8417D-9286-4B4F-81E2-8D77B169DD6D', 'Nuts', true),
+    ('8292E5F2-DF02-4D0D-A1B4-7D2C22E2F5E1', 'Shellfish', true),
+    ('0DFEEA55-9827-41F5-8467-667D4DAC2E13', 'Soy', true),
+    ('405B9852-E7F1-4E36-9A54-8A9323F8E2F9', 'Egg', true);

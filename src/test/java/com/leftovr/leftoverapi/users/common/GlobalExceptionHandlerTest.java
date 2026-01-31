@@ -1,6 +1,7 @@
 package com.leftovr.leftoverapi.users.common;
 
 import com.leftovr.leftoverapi.users.domain.exceptions.SomeDietaryPreferencesNotFoundException;
+import com.leftovr.leftoverapi.users.domain.exceptions.SomeRestrictionsNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,22 @@ public class GlobalExceptionHandlerTest {
 
         // Act
         ResponseEntity<ErrorResponse> response = globalExceptionHandler.handleSomeDietaryPreferencesNotFoundException(exception);
+
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().status());
+        assertEquals(exception.getMessage(), response.getBody().message());
+    }
+
+    @Test
+    void testHandleSomeRestrictionsNotFoundException() {
+        // Arrange
+        String message = "Some restrictions not found";
+        SomeRestrictionsNotFoundException exception = new SomeRestrictionsNotFoundException(message);
+
+        // Act
+        ResponseEntity<ErrorResponse> response = globalExceptionHandler.handleSomeRestrictionsNotFoundException(exception);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

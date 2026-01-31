@@ -1,0 +1,4 @@
+### Get allergies lookup
+GET {{baseUrl}}/api/users/preferences/allergies/lookup
+Authorization: Bearer {{token}}
+Content-Type: application/json
