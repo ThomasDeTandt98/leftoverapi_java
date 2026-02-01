@@ -15,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @DataJpaTest
@@ -63,5 +64,32 @@ public class AllergiesRepositoryTest {
 
         // Assert
         assertEquals(0, result.size());
+    }
+
+    @Test
+    void findByIdAndIsActiveIsTrue_shouldReturnAllergyWhenActive() {
+        // Arrange
+        Allergy activeAllergy = AllergyTestBuilder.aDefault().build();
+        allergiesRepository.save(activeAllergy);
+
+        // Act
+        var result = allergiesRepository.findByIdAndIsActiveIsTrue(activeAllergy.getId());
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(activeAllergy.getName(), result.get().getName());
+    }
+
+    @Test
+    void findByIdAndIsActiveIsTrue_shouldReturnEmptyWhenAllergyIsInactive() {
+        // Arrange
+        Allergy inactiveAllergy = AllergyTestBuilder.aDefault().withIsActive(false).build();
+        allergiesRepository.save(inactiveAllergy);
+
+        // Act
+        var result = allergiesRepository.findByIdAndIsActiveIsTrue(inactiveAllergy.getId());
+
+        // Assert
+        assertTrue(result.isEmpty());
     }
 }

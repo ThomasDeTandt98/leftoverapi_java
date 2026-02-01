@@ -2,3 +2,15 @@
 GET {{baseUrl}}/api/users/preferences/allergies/lookup
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+### Add user allergies
+POST {{baseUrl}}/api/users/preferences/allergies
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "allergyIds" : [
+        "b023b4b3-13d4-4537-8cf0-4d5e2b7048f1",
+        "7c5db4c2-1eef-4984-a67b-3f68e6765ae5"
+    ]
+}

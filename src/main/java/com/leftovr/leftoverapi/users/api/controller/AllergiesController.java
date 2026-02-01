@@ -1,12 +1,14 @@
 package com.leftovr.leftoverapi.users.api.controller;
 
+import com.leftovr.leftoverapi.users.api.requests.allergies.AddUserAllergiesRequest;
 import com.leftovr.leftoverapi.users.api.responses.allergies.AllergiesLookupResponse;
 import com.leftovr.leftoverapi.users.application.results.allergies.AllergiesLookupResult;
 import com.leftovr.leftoverapi.users.application.services.allergies.AllergiesService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +30,16 @@ public class AllergiesController {
                 .toList();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createUserAllergies(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody @Valid AddUserAllergiesRequest request
+    ) {
+        String userId =jwt.getSubject();
+        allergiesService.addUserAllergies(userId, request.allergyIds());
+
+        return ResponseEntity.ok().build();
     }
 }
