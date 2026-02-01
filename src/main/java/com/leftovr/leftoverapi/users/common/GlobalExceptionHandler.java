@@ -1,5 +1,6 @@
 package com.leftovr.leftoverapi.users.common;
 
+import com.leftovr.leftoverapi.users.domain.exceptions.SomeAllergiesNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.SomeDietaryPreferencesNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.SomeRestrictionsNotFoundException;
 import com.leftovr.leftoverapi.users.domain.exceptions.UserNotFoundException;
@@ -31,6 +32,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SomeRestrictionsNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleSomeRestrictionsNotFoundException(SomeRestrictionsNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SomeAllergiesNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSomeAllergiesNotFoundException(SomeAllergiesNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 e.getMessage()

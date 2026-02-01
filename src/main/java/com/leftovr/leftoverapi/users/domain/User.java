@@ -58,7 +58,22 @@ public class User {
     )
     private Set<Restriction> restrictions = new HashSet<>();
 
-    public Set<Restriction> getRestrictions() {return Set.copyOf(restrictions);}
+    public Set<Restriction> getRestrictions() {
+        return Set.copyOf(restrictions);
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_allergies",
+            schema = "users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "allergy_id")
+    )
+    private Set<Allergy> allergies = new HashSet<>();
+
+    public Set<Allergy> getAllergies() {
+        return Set.copyOf(allergies);
+    }
 
     public void addDietaryPreferences(Set<DietaryPreference> dietaryPreferences) {
         this.dietaryPreferences.addAll(dietaryPreferences);
@@ -66,5 +81,9 @@ public class User {
 
     public void addRestrictions(Set<Restriction> restrictions) {
         this.restrictions.addAll(restrictions);
+    }
+
+    public void addAllergies(Set<Allergy> allergies) {
+        this.allergies.addAll(allergies);
     }
 }
